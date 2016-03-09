@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<title>Appointment Dashboard</title>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+		<link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+	</head>
+	<body>
+		<div id="wrapper">
+			<!-- Header -->
+			<nav class="navbar navbar-inverse">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<p class="nav navbar-brand"><b>Hello, {{ session['name'] }}</b></p>
+					</div>
+					<div>
+						<ul class="nav navbar-nav navbar-right">
+							<li><!-- LOGOUT ROUTE CLEARS SESSION PARAMS AND REDIRECTS TO HOME PAGE -->
+								<a href='/logout'>Logout</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<!-- End of Header -->
+			<!-- TABLE OF TODAYS APPOINTMENTS -->
+			<div class='row'>
+				<h3>Here are you appointments for today, {{ current_date }}</h3>
+				<table class='table table-hover'>
+					<tr>
+						<div class="col-md-5">
+							<th>Tasks</th>
+						</div>
+						<div class="col-md-2">
+							<th>Time</th>
+						</div>
+						<div class="col-md-1">
+							<th>Status</th>
+						</div>
+						<div class="col-md-4">
+							<th>Actions</th>
+						</div>
+					</tr>
+					{% for current_appt in current_appts %}
+						<tr>
+							<div class="col-md-5">
+								<td>{{ current_appt['tasks'] }}</td>
+							</div>
+							<div class="col-md-2">
+								<td>{{ current_appt['time'] }}</td>
+							</div>
+							<div class="col-md-1">
+								<td>{{ current_appt['status'] }}</td>
+							</div>
+							<div class="col-md-4">
+								<td>
+									<div class="action_links">
+										<a href='/appointments/edit/{{ current_appt['id'] }}'>Edit</a> | <form action='/appointments/destroy/{{ current_appt['id'] }}' id='destroy_btn'><button type="submit" class='btn btn-alert'>Remove</button></form>
+									</div>
+								</td>
+							</div>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+			<br>
+			<!-- TABLE OF OTHER APPOINTMENTS -->
+			<div class='row'>
+				<div class='col-md-6'>
+				<h3>Your Other Appointments</h3>
+					<table class='table table-hover'>
+						<tr>
+							<div class="col-md-5">
+								<th>Tasks</th>
+							</div>
+							<div class="col-md-2">
+								<th>Date</th>
+							</div>
+							<div class="col-md-1">
+								<th>Time</th>
+							</div>
+							<div class="col-md-4">
+								<th></th>
+							</div>
+						</tr>
+						{% for future_appt in future_appts %}
+							<tr>
+								<div class="col-md-5">
+									<td>{{ future_appt['tasks'] }}</td>
+								</div>
+								<div class="col-md-2">
+									<td>{{ future_appt['date'] }}</td>
+								</div>
+								<div class="col-md-1">
+									<td>{{ future_appt['time'] }}</td>
+								</div>
+								<div class="col-md-4">
+									<td></td>
+								</div>
+							</tr>
+						{% endfor %}
+					</table>
+				</div>
+				<div class='col-md-6'></div>
+			</div>
+			<br>
+			<!-- ADDING APPOINTMENTS -->
+			<div class='row'>
+				<div class='col-md-6'>
+					<h3>Add Appointment</h3>
+					<form action='/appointments/new' class="form-horizontal" role="form" method='post'>
+						{% with messages = get_flashed_messages()%}
+							{% for message in messages %}
+								<div class='error'>{{ message }}</div>
+							{% endfor %}
+						{% endwith %}
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Date:</label>
+							<div class="col-sm-4">
+								<input class="form-control" id="focusedInput" type="date" name='date'>
+							</div>
+							<div class="col-sm-6"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Time</label>
+							<div class="col-sm-3">
+								<input class="form-control" id="focusedInput" type='time' name='time'>
+							</div>
+							<div class="col-sm-7"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tasks</label>
+							<div class="col-sm-6">
+								<textarea class="form-control" id="focusedInput" rows='5' name='tasks'></textarea>
+							</div>
+							<div class="col-sm-4"></div>
+						</div>
+						<br>
+						<div id="btn1"><input type='submit' class='btn btn-alert' value='Add Appointment'></div>
+					</form>
+				</div>
+				<div class='col-md-6'></div>
+			</div>
+
+
+
+
+
+
+
+
+
+		</div>
+	</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<title>Edit Appointments</title>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="/static/css/styles.css" type="text/css">
+	</head>
+	<body>
+		<div id="wrapper">
+			<!-- Header -->
+			<nav class="navbar navbar-inverse">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<p class="nav navbar-brand"><b>Edit Appointments</b></p>
+					</div>
+					<div>
+						<ul class="nav navbar-nav navbar-right">
+							<li><!-- LOGOUT ROUTE CLEARS SESSION PARAMS AND REDIRECTS TO HOME PAGE -->
+								<a href='/logout'>Logout</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<!-- End of Header -->
+			<div class='row'>
+				<div class='col-md-6' id='edit_container'>
+					<form action='/appointments/update/{{ single_appt[0]['id'] }}' class="form-horizontal" role="form" method='post'>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Tasks</label>
+							<div class="col-sm-6">
+								<textarea class="form-control" id="focusedInput" rows='5' name='tasks'>{{ single_appt[0]['tasks'] }}</textarea>
+							</div>
+							<div class="col-sm-4"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Time</label>
+							<div class="col-sm-6">
+								<input class="form-control" id="focusedInput" type="time" name='time' value="{{ single_appt[0]['time'] }}">
+							</div>
+							<div class="col-sm-4"></div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Status</label>
+							<div class="col-sm-6">
+								<div class='dropdown'>
+									<select name='status' value='{{ single_appt[0]['status'] }}'>
+										<option value='Pending'>Pending</option>
+										<option value='Done'>Done</option>
+										<option value='Missed'>Missed</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-4"></div>
+						</div>
+						<input type='submit' class='btn btn-alert' value='Update'>
+					</form>
+				</div>
+				<div class='col-md-6'></div>
+			</div>
+			<br>
+			<a href='/appointments'>Go Back</a>
+		</div>
+	</body>
+</html>
